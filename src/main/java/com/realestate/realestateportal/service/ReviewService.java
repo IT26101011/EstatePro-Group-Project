@@ -34,6 +34,13 @@ public class ReviewService {
         if (comment == null || comment.isBlank()) {
             throw new IllegalArgumentException("Review comment cannot be empty.");
         }
+        if (comment.contains("|")
+                || comment.contains("\n")
+                || comment.contains("\r")) {
+            throw new IllegalArgumentException(
+                    "Review comment cannot contain | or line breaks."
+            );
+        }
 
         String reviewId = "REV-" + UUID.randomUUID();
 
@@ -94,6 +101,14 @@ public class ReviewService {
         if (comment == null || comment.isBlank()) {
             throw new IllegalArgumentException("Review comment cannot be empty.");
         }
+        if (comment.contains("|")
+                || comment.contains("\n")
+                || comment.contains("\r")) {
+            throw new IllegalArgumentException(
+                    "Review comment cannot contain | or line breaks."
+            );
+        }
+
 
         review.setRating(rating);
         review.setComment(comment.trim());
