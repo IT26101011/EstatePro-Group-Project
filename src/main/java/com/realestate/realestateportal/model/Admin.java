@@ -1,3 +1,4 @@
+
 package com.realestate.realestateportal.model;
 
 public class Admin {
@@ -8,9 +9,11 @@ public class Admin {
     private String password;
     private String accessLevel;
 
+    // Default Constructor
     public Admin() {
     }
 
+    // Parameterized Constructor
     public Admin(String adminId, String name, String email,
                  String password, String accessLevel) {
 
@@ -20,6 +23,8 @@ public class Admin {
         this.password = password;
         this.accessLevel = accessLevel;
     }
+
+    // Getters and Setters
 
     public String getAdminId() {
         return adminId;
@@ -59,5 +64,15 @@ public class Admin {
 
     public void setAccessLevel(String accessLevel) {
         this.accessLevel = accessLevel;
+    }
+
+    // Check whether Admin is a Super Admin
+    public boolean isSuperAdmin() {
+        return "SUPER_ADMIN".equalsIgnoreCase(accessLevel);
+    }
+
+    // Check whether Admin is a Normal Admin
+    public boolean isNormalAdmin() {
+        return "ADMIN".equalsIgnoreCase(accessLevel);
     }
 }
