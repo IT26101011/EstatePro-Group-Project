@@ -57,6 +57,33 @@ public class UserController {
         return "Logout successful!";
     }
 
+    // =====================================
+// CLIENT PROFILE MANAGEMENT
+// =====================================
+
+    // View Own Profile
+    @GetMapping("/profile")
+    public Object getMyProfile(HttpSession session) {
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            Map<String, String> error = new LinkedHashMap<>();
+            error.put("error", "Please login to view your profile.");
+            return error;
+        }
+
+        // Return profile details without password
+        Map<String, String> profile = new LinkedHashMap<>();
+
+        profile.put("fullName", loggedInUser.getFullName());
+        profile.put("email", loggedInUser.getEmail());
+        profile.put("phone", loggedInUser.getPhone());
+        profile.put("role", loggedInUser.getRole());
+
+        return profile;
+    }
+
 // =====================================
 // ADMIN MANAGEMENT
 // =====================================
