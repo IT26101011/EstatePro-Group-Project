@@ -1,9 +1,11 @@
+
 package com.realestate.realestateportal.service;
 
 import com.realestate.realestateportal.model.Property;
 import com.realestate.realestateportal.repository.PropertyRepository;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class PropertyService {
@@ -60,7 +62,114 @@ public class PropertyService {
         return propertyRepository.findById(propertyId);
     }
 
-    // Update Property
+
+
+    public List<Property> filterProperties(
+            String propertyType,
+            String listingType,
+            String location,
+            Double minPrice,
+            Double maxPrice,
+            Integer bedrooms,
+            Integer bathrooms,
+            Double minArea,
+            Double maxArea) {
+
+        List<Property> allProperties =
+                propertyRepository.getAllProperties();
+
+        List<Property> filteredProperties = new ArrayList<>();
+
+        // Check every property
+        for (Property property : allProperties) {
+
+            // 1. Filter by Property Type
+            if (propertyType != null && !propertyType.isBlank()) {
+
+                if (property.getPropertyType() == null ||
+                        !property.getPropertyType().equalsIgnoreCase(propertyType)) {
+                    continue;
+                }
+            }
+
+            // 2. Filter by Listing Type
+            if (listingType != null && !listingType.isBlank()) {
+
+                if (property.getListingType() == null ||
+                        !property.getListingType().equalsIgnoreCase(listingType)) {
+                    continue;
+                }
+            }
+
+            // 3. Filter by Location
+            if (location != null && !location.isBlank()) {
+
+                if (property.getLocation() == null ||
+                        !property.getLocation().toLowerCase()
+                                .contains(location.trim().toLowerCase())) {
+                    continue;
+                }
+            }
+
+            // 4. Filter by Minimum Price
+            if (minPrice != null) {
+
+                if (property.getPrice() < minPrice) {
+                    continue;
+                }
+            }
+
+            // 5. Filter by Maximum Price
+            if (maxPrice != null) {
+
+                if (property.getPrice() > maxPrice) {
+                    continue;
+                }
+            }
+
+            // 6. Filter by Bedrooms
+            if (bedrooms != null) {
+
+                if (property.getBedrooms() < bedrooms) {
+                    continue;
+                }
+            }
+
+            // 7. Filter by Bathrooms
+            if (bathrooms != null) {
+
+                if (property.getBathrooms() < bathrooms) {
+                    continue;
+                }
+            }
+
+            // 8. Filter by Minimum Area
+            if (minArea != null) {
+
+                if (property.getArea() < minArea) {
+                    continue;
+                }
+            }
+
+            // 9. Filter by Maximum Area
+            if (maxArea != null) {
+
+                if (property.getArea() > maxArea) {
+                    continue;
+                }
+            }
+
+            // All selected criteria matched
+            filteredProperties.add(property);
+        }
+
+        return filteredProperties;
+    }
+
+
+    // UPDATE PROPERTY
+
+
     public String updateProperty(Property property) {
 
         if (property.getTitle() == null || property.getTitle().isBlank() ||
